@@ -32,3 +32,31 @@ def apply_coupons (consol_cart, coupons)
   end
   return consol_cart
 end
+
+def apply_clearance (cart)
+  cart.each do |item, price_data|
+    if price_data[:clearance]
+      price_data[:price] = (price_data[:price] * 0.8).round(2)
+    end
+  end
+  return cart
+end
+
+def checkout (cart, coupons = 0)
+  total_cost = 0.00
+  total_cart =[]
+  total_cart = consolidate_cart(cart)
+  if coupons != 0
+    total_cart = apply_coupons(total_cart, coupons)
+  end
+  total_cart = apply_clearance(total_cart)
+  total_cart.each do |item, price_data|
+    total_cost = total_cost + (price_data[:price] * price_data[:count])
+  end
+  if total_cost > 100
+    total_cost = (total_cost * 0.9).round(2)
+  end
+  return total_cost
+end
+
+
