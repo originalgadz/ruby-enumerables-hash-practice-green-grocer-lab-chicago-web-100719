@@ -19,6 +19,9 @@ def apply_coupons (consol_cart, coupons)
   coupons.each do |coupon_hash|
     if consol_cart[coupon_hash[:item]]
       new_item = coupon_hash[:item] + " W/COUPON"
+      if coupon_hash[:num] > consol_cart[coupon_hash[:item]][:count]
+        coupon_hash[:num] = consol_cart[coupon_hash[:item]][:count]
+      end
       if consol_cart[new_item]
         consol_cart[new_item][:count] += coupon_hash[:num]
       else consol_cart[new_item] = {
