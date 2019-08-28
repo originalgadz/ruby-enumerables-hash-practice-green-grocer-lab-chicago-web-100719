@@ -17,7 +17,7 @@ end
 
 def apply_coupons (consol_cart, coupons)
   coupons.each do |coupon_hash|
-    if consol_cart[coupon_hash[:item]]
+    if consol_cart[coupon_hash[:item]] && coupon_hash[:num] <= consol_cart[coupon_hash[:item]][:count]
       new_item = coupon_hash[:item] + " W/COUPON"
       if consol_cart[new_item]
         consol_cart[new_item][:count] += coupon_hash[:num]
@@ -58,5 +58,3 @@ def checkout (cart, coupons = 0)
   end
   return total_cost
 end
-
-
